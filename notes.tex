@@ -11,15 +11,16 @@
 \begin{document}
 
 \title{Notes}
+\author{Sebastian Rietsch}
 
 \maketitle
-
 \begin{abstract}
 Some notes about Machine Learning concepts.
 \end{abstract}
+\tableofcontents 
+\newpage
 
-\section{Maximum Likelihood Estimation (MLE)}
-\footnote{\url{https://de.wikipedia.org/wiki/Maximum-Likelihood-Methode}} \footnote{\url{https://towardsdatascience.com/probability-concepts-explained-maximum-likelihood-estimation-c7b4342fdbb1}}
+\section[Maximum Likelihood Estimation (MLE)]{Maximum Likelihood Estimation (MLE)\cite{mle-wikipedia} \cite{mle-tds}}
 Maximum likelihood estimation is a method that determines values for the parameters of a model. The parameter values are found such that they maximise the likelihood that the process described by the model produced the data that were actually observed.
 
 We first have to decide which model we think best describes the process of generating the data.
@@ -35,7 +36,7 @@ The above expression for the total probability is actually quite a pain to diffe
 
 $$log(L(\theta)) = log(\prod_{i=1}^n f_{\theta}(x_i)) = \sum_{i=1}^n log(f_{\theta}(x_i))$$
 
-\section{Binary cross entropy}
+\section[Binary cross entropy]{Binary cross entropy \cite{bce-tds}}
 $$H_p(q) = -\frac{1}{N} \sum_{i=1}^N y_i \cdot log(p(y_i)) + (1-y_i) \cdot (1-p(y_i))$$
 where $y_i$ is the true class label and $p(y_i)$ is the predicted probability of $x_i$ coming from the positive class $y=1$. Basically: \textbf{sum of negative logs of predicted true class probabilities} (weighted by number of samples). Look at figure \ref{fig:binary_cross_neg_log} for negative log loss.
 
@@ -60,8 +61,7 @@ Example with two classes (and $log$ base $2$):
 \end{itemize}
 
 
-\section{Generative Adversarial Networks (GANs)}
-\footnote{\url{https://arxiv.org/pdf/1701.00160.pdf}}
+\section[Generative Adversarial Networks (GANs)]{Generative Adversarial Networks (GANs) \cite{goodfellow2016nips}}
 \subsection{How do GANs work?}
 The basic idea of GANs: set up game between two players. One of them is called \textbf{generator} and creates samples that are intended to come from the same distribution as the training data. The other player is the \textbf{discriminator} who examines samples to determine whether they are real or fake.
 
@@ -102,4 +102,8 @@ $$J^{(D)}(\theta^{(D)},\theta^{(G)}) = -\frac{1}{2} \mathbb{E}_{x \sim{} p_{data
 This is just the standard cross-entropy cost that is minimized when training
 a standard binary classifier with a sigmoid output. The only difference is that the classifier is trained on two minibatches of data; one coming from the dataset, where the label is 1 for all examples, and one coming from the generator, where the label is 0 for all examples.
 
+
+\newpage
+\bibliographystyle{abbrv}
+\bibliography{notes}
 \end{document}

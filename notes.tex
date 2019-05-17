@@ -20,6 +20,14 @@ Some notes about Machine Learning concepts.
 \tableofcontents 
 \newpage
 
+\section{TODOs}
+\begin{itemize}
+	\item
+		Transposed Convolution
+	\item
+		Batch-Normalization
+\end{itemize}
+
 \section[Maximum Likelihood Estimation (MLE)]{Maximum Likelihood Estimation (MLE)\cite{mle-wikipedia} \cite{mle-tds}}
 Maximum likelihood estimation is a method that determines values for the parameters of a model. The parameter values are found such that they maximise the likelihood that the process described by the model produced the data that were actually observed.
 
@@ -149,7 +157,48 @@ When applied, it is observed that optimizing the generator objective function do
 
 Instead of minimizing the likelihood of the discriminator being correct, we maximize the likelihood of the discriminator being wrong. Therefore, we perform gradient ascent on the generator according to this objective function \cite{gansexpl-tds}.
 
+\section{Deep Convolutional Generative Adversarial Networks (DCGAN)}
+DCGANs are a family of architectures that resulted in stable training across a range of datasets and allowed for training higher
+resolution and deeper generative models.
 
+Architecture guidelines for stable Deep Convolutional GANs:
+\begin{itemize}
+	\item Replace any pooling layers with strided convolutions (discriminator) and fractional-strided convolutions (generator).
+	\item Use batchnorm in both the generator and the discriminator. No batchnorm at generator output and discriminator input layer.
+	\item Remove fully connected hidden layers for deeper architectures.
+	\item Use ReLU activation in generator for all layers except for the output, which uses Tanh.
+	\item Use LeakyReLU activation in the discriminator for all layers.
+	\item Use Sigmoid at discriminator output, Tanh at generator.
+\end{itemize}
+
+More details:
+\begin{itemize}
+	\item
+		Mini-batch SGD with mini-batch size of 128
+	\item
+		Weight-initialization from zero-centered normal distribution with standard deviation of 0.02
+	\item
+		Leaky-ReLU slope of 0.2
+	\item
+		Adam optimizer, learning rate of 0.0002, leaving momentum of 0.5
+\end{itemize}
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.5]{img/dcgan_arch}
+	\caption{}
+	\label{fig:dcgan_arch}
+\end{figure}
+
+\section{Important formulas}
+\subsection{Convolution}
+$O:$ output size, $W:$ input size, $F:$ filter kernel size, $P:$ padding, $S:$ stride
+\begin{itemize}
+	\item
+		Convolution: $O = \frac{W - F + 2P}{S} + 1$
+	\item
+		Transposed Convolution: $O = S(W-1) + F - 2P$
+\end{itemize}
 
 \newpage
 \bibliographystyle{abbrv}

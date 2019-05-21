@@ -190,6 +190,9 @@ More details:
 	\label{fig:dcgan_arch}
 \end{figure}
 
+\section{Paper: Image-to-Image translation with Conditional Generative Adversarial Networks}
+
+
 \section{Important formulas}
 \subsection{Convolution}
 $O:$ output size, $W:$ input size, $F:$ filter kernel size, $P:$ padding, $S:$ stride
@@ -200,6 +203,21 @@ $O:$ output size, $W:$ input size, $F:$ filter kernel size, $P:$ padding, $S:$ s
 		Transposed Convolution: $O = S(W-1) + F - 2P$
 \end{itemize}
 
+\section{Batch Normalization}
+The idea of batch normalization is to normalize the outputs of each layer, as you normally do it with the input to the neural network (i.e. normalize image pixel values to $[0..1]$). In a first step the mean and variance of the mini-batch get calculated and the values get normalized to have zero mean and standard deviation one (in most cases this happens before they get passed on to the activation function). Because such a normalization isn't always desired (imagine you have a sigmoid activation function, nearly all activations wouldn't even reach 0 or 1) two learnable parameters $\gamma$ and $\beta$ get introduced that modify the mean and variance.
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.7]{img/batch_norm}
+	\caption{}
+	\label{fig:batch_norm}
+\end{figure}
+
+\subsection{Why does batch normalization work?}
+In the case that the input distribution of a learning system, such as a neural network, changes, one speaks of a so-called covariate shift. If this change happens on the input of internal nodes of (deep) neural networks, it is called an internal covariate shift.
+
+Imagine a multilayer fully-connected neural network that is trying to learn. At each training step each layer tries to improve the networks performance by updating its weights based on the activations fed into that layer. The problem is that (especially for layers deep down in the network) weight changes in previous layers drastically change the data distribution this layer observes at each step (this is the aforementioned internal covariance shift). This slows down training and reduces the overall performance. Batch normalization reduces this effect to some extent by ensuring that the data distributions variance and mean remain stable.
+
+Additionally the mean and variance are only computed on each mini-batch instead of the whole training set. This adds some noise to the layer activations and acts as a gentle regularization.
 \newpage
 \bibliographystyle{abbrv}
 \bibliography{notes}

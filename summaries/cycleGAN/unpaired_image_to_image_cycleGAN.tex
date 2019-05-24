@@ -21,6 +21,14 @@ using Cycle-Consistent Adversarial Networks}
 Approach for learning to translate an image from a source domain $X$ to a target domain $Y$ in the absence of paired examples. The goal is to learn a mapping $G: X \rightarrow Y$ such that the distribution of images from $G(X)$ is indistinguishable from the distribution of $Y$ using adversarial loss. Because the mapping is highly under-constrained it gets coupled with an inverse mapping $F: Y \rightarrow X$ and an cycle consistent loss gets introduced to enforce $F(G(X)) \approx X$.
 \end{abstract}
 
+\textbf{Links:}
+\begin{itemize}
+	\item
+		\url{https://junyanz.github.io/CycleGAN/}
+	\item
+		\url{https://hardikbansal.github.io/CycleGANBlog/}
+\end{itemize}
+
 \section*{Introduction}
 Given: one set of images from domain $X$ and a different set from domain $Y$. One way to achieve this goal is to train a mapping $G: X \rightarrow Y$ such that the output $\hat{y} = G(x), x \in X$, is indistinguishable from images $y \in Y$ by an adversary trained to classify $\hat{y}$ apart from $y$. The optimal $G$ thereby translates the domain $X$ to a domain $\hat{Y}$ distributed identically to $Y$. However, such a translation does not guarantee that an individual input $x$ and output $y$ are paired up in a meaningful way - there are infinitely many mappings $G$ that will induce the same distribution over $\hat{y}$. Also: it is really hard to optimize such an adversarial objective (mode collapse).
 
@@ -106,6 +114,26 @@ The model can be viewed as training two autoencoders: we learn on autoencoder $ 
 		$\lambda = 10$ 
 	\item
 		Adam solver with a batch size of $1$, learning rate of $0.0002$. Same learning rate for the first 100 epochs and linearly decay the rate to zero over the next 100 epochs.
+\end{itemize}
+
+\section*{What's next?}
+\begin{itemize}
+	\item
+		Generator is inspired by Johnson et. al. $\rightarrow$ Need to understand and be able to implement
+		\begin{itemize}
+			\item
+				Maybe implement the style transfer algorithm?
+			\item
+				Reflection padding
+			\item
+				Residual blocks
+		\end{itemize}
+	\item
+		Discriminator uses PatchGAN $\rightarrow$ Need to understand and be able to implement
+		\begin{itemize}
+			\item
+				TODO
+		\end{itemize}
 \end{itemize}
 \newpage
 \bibliographystyle{abbrv}

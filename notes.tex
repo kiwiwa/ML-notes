@@ -186,12 +186,8 @@ More details:
 \begin{figure}
 	\centering
 		\includegraphics[scale=0.5]{img/dcgan_arch}
-	\caption{}
 	\label{fig:dcgan_arch}
 \end{figure}
-
-\section{Paper: Image-to-Image translation with Conditional Generative Adversarial Networks}
-
 
 \section{Important formulas}
 \subsection{Convolution}
@@ -218,6 +214,48 @@ In the case that the input distribution of a learning system, such as a neural n
 Imagine a multilayer fully-connected neural network that is trying to learn. At each training step each layer tries to improve the networks performance by updating its weights based on the activations fed into that layer. The problem is that (especially for layers deep down in the network) weight changes in previous layers drastically change the data distribution this layer observes at each step (this is the aforementioned internal covariance shift). This slows down training and reduces the overall performance. Batch normalization reduces this effect to some extent by ensuring that the data distributions variance and mean remain stable.
 
 Additionally the mean and variance are only computed on each mini-batch instead of the whole training set. This adds some noise to the layer activations and acts as a gentle regularization.
+
+\section{Residual Blocks \cite{residual-net}}
+The authors of ResNet observed, no matter how deep a network is, it should not be any worse than the shallower network. That’s because if we argue that neural net could approximate any complicated function, then it could also learn identity function, i.e. input = output, effectively skipping the learning progress on some layers. But, in real world, this is not the case because of the vanishing gradient and curse of dimensionality problems.
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.7]{img/residual_block}
+	\label{fig:degradation_problem}
+\end{figure}
+
+\begin{figure}
+	\centering
+		\includegraphics[scale=0.7]{img/degradation_problem}
+	\label{fig:degradation_problem}
+\end{figure}
+
+Hence, it might be useful to explicitly force the network to learn an identity mapping, by learning the residual of input and output of some layers (or subnetworks). Suppose the input of the subnetwork is 
+$x$, and the true output is $H(x)$. The residual is the difference between them: $F(x) = H(x) - x$. As we are interested in finding the true, underlying output of the subnetwork, we then rearrange that equation into $H(x) = F(x) + x$
+
+So that’s the difference between ResNet and traditional neural nets. Where traditional neural nets will learn $H(x)$ directly, ResNet instead models the layers to learn the residual of input and output of subnetworks. This will give the network an option to just skip subnetworks by making $F(x) = 0$, so that $H(x) = x$. In other words, the output of a particular subnetwork is just the output of the last subnetwork.
+
+During backpropagation, learning residual gives us nice property. Because of the formulation, the network could choose to ignore the gradient of some subnetworks, and just forward the gradient from higher layers to lower layers without any modification. As an extreme example, this means that ResNet could just forward gradient from the last layer, e.g. layer 151, directly to the first layer. This gives ResNet additional nice to have option which might be useful, rather than just strictly doing computation in all layers.
+
+\section*{Reflection Padding \cite{padding}}
+Padded pixels are computed by reflecting the input image
+pixels about the border:
+
+\begin{tabular}{c|c|c}
+SR & QRSTUVWX & WV\\
+KJ & IJKLMNOP & ON\\
+\hline
+CB&ABCDEFGH&GF\\
+KJ&IJKLMNOP&ON\\
+SR&QRSTUVWX&WV\\
+aZ&YZabcdef&ed\\
+ih&ghijklmn&ml\\
+qp&opqrstuv&ut\\
+\hline
+ih&ghijklmn&ml\\
+aZ&YZabcdef&ed
+\end{tabular}
+
 \newpage
 \bibliographystyle{abbrv}
 \bibliography{notes}

@@ -1,0 +1,31 @@
+\documentclass{scrartcl}
+\usepackage[parfill]{parskip}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+
+\begin{document}
+
+\title{Notes}
+\author{Sebastian Rietsch}
+
+\maketitle
+\begin{abstract}
+Some notes about Machine Learning concepts.
+\end{abstract}
+\tableofcontents 
+\newpage
+
+\input{tex/rl.tex}
+\input{tex/general.tex}
+
+\newpage
+\bibliographystyle{abbrv}
+\bibliography{sources}
+\end{document}
